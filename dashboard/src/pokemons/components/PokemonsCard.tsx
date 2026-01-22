@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { SimplePokemon } from "../interfaces/simple-pokemon";
 import Image from "next/image";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { useAppSelector } from "@/store";
+import { useDispatch } from "react-redux";
+import { pokemonToggle } from "@/store/pokemons/pokemons";
 
 interface Props {
   pokemon: SimplePokemon;
@@ -9,6 +14,14 @@ interface Props {
 
 const PokemonsCard = ({ pokemon }: Props) => {
   const { id, name } = pokemon;
+  const favoriteState = useAppSelector((state) => !!state.pokemons[id]);
+  console.log(favoriteState);
+  const dispatch = useDispatch();
+
+  const OntoggleFavorite = () => {
+    dispatch(pokemonToggle(pokemon));
+  };
+
   return (
     <>
       <div className="mx-auto right-0 mt-2 w-60">
@@ -25,7 +38,6 @@ const PokemonsCard = ({ pokemon }: Props) => {
               />
             </div>
 
-            <p className="pt-2 text-lg font-semibold text-gray-50"></p>
             <div className="mt-5">
               <Link
                 href={`/dashboard/pokemon-name/${name}`}
@@ -35,21 +47,23 @@ const PokemonsCard = ({ pokemon }: Props) => {
               </Link>
             </div>
           </div>
-          <div className="border-b">
-            <Link
-              href="/dashboard/main"
-              className="px-4 py-2 hover:bg-gray-100 flex"
-            >
-              <div className="text-red-600 items-center flex">
+          <div
+            onClick={OntoggleFavorite}
+            className="px-4 py-2 hover:bg-gray-100 flex cursor-pointer"
+          >
+            <div className="text-red-600 items-center flex">
+              {favoriteState ? (
+                <IoHeart size={20} />
+              ) : (
                 <IoHeartOutline size={20} />
-              </div>
-              <div className="pl-3">
-                <p className="text-sm font-medium text-gray-800 leading-none">
-                  Favorite
-                </p>
-                <p className="text-xs text-gray-500">Select your favorite</p>
-              </div>
-            </Link>
+              )}
+            </div>
+            <div className="pl-3">
+              <p className="text-sm font-medium text-gray-800 leading-none">
+                {favoriteState ? "Favorite" : "it's not your favorite"}
+              </p>
+              <p className="text-xs text-gray-500">Select your favorite</p>
+            </div>
           </div>
         </div>
       </div>
