@@ -1,15 +1,24 @@
 import { SimplePokemon } from "@/pokemons";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 interface PokemonsFavoriteState {
   [key: string]: SimplePokemon;
 }
 
+const getInitState = (): PokemonsFavoriteState => {
+  if (typeof localStorage === "undefined") return {};
+
+  const favorites = JSON.parse(
+    localStorage.getItem("pokemons-favorite") ?? "{}",
+  );
+  return favorites;
+};
+
 const initialState: PokemonsFavoriteState = {
-  "1": { id: "1", name: "bulbasaur" },
-  "43": { id: "43", name: "oddish" },
-  "51": { id: "51", name: "dugtrio" },
+  ...getInitState(),
+  // "1": { id: "1", name: "bulbasaur" },
+  // "43": { id: "43", name: "oddish" },
+  // "51": { id: "51", name: "dugtrio" },
 };
 
 const pokemonsSlice = createSlice({
@@ -24,10 +33,13 @@ const pokemonsSlice = createSlice({
       //como el id de bulbasur si existe, entonce lo elimina
       if (!!state[id]) {
         delete state[id];
-        return;
+        // return;
+      } else {
+        //pero si el id de bulbasur no existe, se añade al objeto
+        state[id] = pokemon;
       }
-      //pero si el id de bulbasur no existe, se añade al objeto
-      state[id] = pokemon;
+
+      localStorage.setItem("pokemons-favorite", JSON.stringify(state));
     },
   },
 });
