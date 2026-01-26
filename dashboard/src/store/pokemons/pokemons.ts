@@ -15,7 +15,7 @@ const getInitState = (): PokemonsFavoriteState => {
 };
 
 const initialState: PokemonsFavoriteState = {
-  ...getInitState(),
+  // ...getInitState(),
   // "1": { id: "1", name: "bulbasaur" },
   // "43": { id: "43", name: "oddish" },
   // "51": { id: "51", name: "dugtrio" },
@@ -25,7 +25,15 @@ const pokemonsSlice = createSlice({
   name: "pokemons",
   initialState,
   reducers: {
+    setFavoritePokemons(state, action: PayloadAction<PokemonsFavoriteState>) {
+      return action.payload;
+    },
+
     pokemonToggle(state, action: PayloadAction<SimplePokemon>) {
+      // AQUÍ ESTÁ EL SECRETO
+      console.log("--- Action Recibida ---");
+      console.log("Tipo de acción:", action.type);
+      console.log("Contenido (Payload):", action.payload);
       //toma el pokemon del action.payload y luego desestructura su id
       const pokemon = action.payload;
       const { id } = pokemon;
@@ -44,6 +52,6 @@ const pokemonsSlice = createSlice({
   },
 });
 
-export const { pokemonToggle } = pokemonsSlice.actions;
+export const { pokemonToggle, setFavoritePokemons } = pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;

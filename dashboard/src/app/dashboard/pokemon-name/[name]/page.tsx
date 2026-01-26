@@ -21,7 +21,7 @@ const getPokemon = async (name: string): Promise<Pokemon> => {
 
 export async function generateStaticParams() {
   const static151Pokemons = Array.from({ length: 151 }).map(
-    (v, i) => `${i + 1}`
+    (v, i) => `${i + 1}`,
   );
 
   return static151Pokemons.map((name) => ({ name: name }));
@@ -62,7 +62,7 @@ export default async function PokemonPage({ params }: Props) {
                 width={150}
                 height={150}
                 alt={`Imagen del pokemon ${pokemon.name}`}
-                className="mb-5"
+                className="mb-5 w-50 h-50"
               />
             ) : (
               <div className="h-150px w-150px bg-slate-100 flex items-center justify-center rounded">

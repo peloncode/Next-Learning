@@ -71,6 +71,7 @@ const Sidebar = () => {
             </div>
             <div id="profile" className="space-y-3">
               <Image
+                loading="eager"
                 src="/amolchi.jpeg"
                 alt="Avatar user"
                 className="w-10 md:w-16 rounded-full mx-auto"
